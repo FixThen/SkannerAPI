@@ -13,7 +13,7 @@ namespace ScannerAPI.Entities
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Scanner>()
-				.Property(s => s.Skaner)
+				.Property(s => s.Budynek)
 				.IsRequired()
 				.HasMaxLength(25);
 
