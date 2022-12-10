@@ -15,15 +15,44 @@ namespace ScannerAPI.Controllers
 		{
 			_scannerService = scannerService;
 		}
+
+		[HttpPut("{id}")]
+		public ActionResult Update([FromBody] UpdateScannerDto dto,[FromRoute]int id)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var isUpdated = _scannerService.Update(id, dto);
+			if (isUpdated)
+			{
+				return Ok();
+			}
+			return NotFound();
+
+		}
+		[HttpDelete("{id}")]
+		public ActionResult Delete([FromRoute] int id)
+		{
+			var isDeleted = _scannerService.Delete(id);
+
+			if (isDeleted)
+			{
+				return NoContent();
+			}
+
+			return NotFound();
+		}
 		[HttpPost]
 		// wysłanie danych przez klijenta 
 		public ActionResult CreateScanner([FromBody]CreateScannerDto dto)
 		{
 			//sprawdzenie właściwości 
-			/*if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
-			}*/
+			}
 
 			var id = _scannerService.Create(dto);
 			return Created("/api/scanner/{id}", null);
